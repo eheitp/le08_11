@@ -1,0 +1,243 @@
+<!DOCTYPE html >
+<html lang="en">
+{% load static %}
+
+
+
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Charts </title>
+
+        <!--<script>
+        function autoRefresh() {
+            window.location = window.location.href;
+        }
+        setInterval('autoRefresh()', 60000);
+        </script>-->
+        <link href="{% static 'dist/css/styles.css'%}" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'DB'%}">capteur DHT11</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#!" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                </li>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#!">Settings</a>
+                        <a class="dropdown-item" href="#!">Activity Log</a>
+                    <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="">Logout</a>
+                </div>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading"></div>
+
+
+                            <div class="sb-sidenav-menu-heading">menu</div>
+                            <a class="nav-link" href="{% url 'CH'%}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="{% url 'Data'%}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">DHT11</div>
+                        DHT11 Monitoring
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Charts</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{% url 'DB' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Charts</li>
+                        </ol>
+                        <form method="POST">
+                            <input type="date" id="start_date" >
+                            <input type="date" id="end_date">
+                            <input class="btn btn-dark" type="submit">
+                        </form>
+                        <div class="card mb-4">
+                       <!-- <iframe src="https://www.google.com/maps/d/embed?mid=1POVJkLfIGnNqGEMUKhO2Ru5Im_Z-UC9m" width="100%" height="480"></iframe>
+                        -->
+                        </div>
+                        <div class="card mb-4">
+                            <a href="{% url 'exp-csv' %}" class="btn btn-secondary" style="color:yellow" > Exporter les données CSV </a>
+
+                            <div class="card-header">
+                                <i class="fas fa-chart-area mr-1"></i>
+                                Humidité
+                            </div>
+
+                            <div class="card-body"><canvas id="myAreaChart" width="100%" height="60"></canvas></div>
+
+                        </div>
+
+                                <div class="card mb-4">
+
+                                    <div class="card-header">
+
+                                        <i class="fas fa-chart-bar mr-1"></i>
+                                        Température
+
+                                    </div>
+                                    <div class="card-body"><canvas id="myChart1" width="100%" height="60"></canvas></div>
+                                </div>
+                            </div>
+
+
+                                    <div class="card-body"><canvas id="myPieChart" width="100%" height="60"></canvas>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </main>
+
+                <footer class="py-4 bg-light mt-auto">
+
+                    <div class="container-fluid">
+
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+        <script src="{% static 'dist/js/scripts.js' %}"></script>
+        <script src="{% static 'assets/demo/chart-area-demo.js' %}"></script>
+        <script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
+        <script src="{% static 'assets/demo/chart-pie-demo.js'%}"></script>
+        <script>
+                                        const dates = [{% for i in tab %} '{{i.dt}}', {% endfor %}];
+                                        const datas = [{% for i in tab %} '{{i.hum}}', {% endfor %}];
+                                        var ctx = document.getElementById('myAreaChart').getContext('2d');
+                                                var myChart = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: dates,
+                                                        scaleShowLabels : false,
+                                                        datasets: [{
+                                                                label: 'humidité',
+                                                                data:datas,
+
+                                                                    borderColor: [
+                                                                        'rgba(0,0,2,1)',
+                                                                    ],
+                                                            borderWidth: 1
+                                                                        }]
+                                                                            },
+                                                                        options: {
+                                                                            scales: {
+                                                                                yAxes: [{
+                                                                                    ticks: {
+                                                                                        beginAtZero: true
+
+                                                                                    }
+                                                                                }]
+                                                                               }
+                                                                        }
+                                                                        });
+        </script>
+        {% csrf_token %}
+    <script>
+        const dates2 = [{% for i in tab %} '{{i.dt|date}}', {% endfor %}];
+        const datas1 = [{% for i in tab %} '{{i.temp}}', {% endfor %}];
+        console.log(dates2);
+        console.log(datas1);
+        var ctx = document.getElementById('myChart1').getContext('2d');
+                                                var myChart1 = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: dates2,
+                                                        datasets: [{
+                                                                label: 'temperature',
+                                                                data: datas1,
+
+                                                                    borderColor: [
+                                                                        'rgba(2,117,216,1)',
+                                                                    ],
+                                                            borderWidth: 1
+                                                                        }]
+                                                                            },
+                                                                        options: {
+                                                                            scales: {
+                                                                                xAxes: [{
+                                                                                    type: 'time',
+                                                                                    time: {
+                                                                                    unit:'day'
+                                                                                    }
+                                                                                }],
+                                                                                yAxes: [{
+                                                                                    ticks: {
+                                                                                        beginAtZero: true
+                                                                                    }
+                                                                                }]
+                                                                            }
+                                                                        }
+                                                                        });
+                                                                       function Fil_date(){
+                                                                            const dates2 = [...dates2];
+                                                                            console.log(dates2);
+                                                                            const start_date = document.getElementById("start_date");
+                                                                            const end_date = document.getElementById("end_date");
+                                                                            console.log(start_date);
+                                                                            const index_start = dates2.indexOf(start_date.value);
+                                                                            const index_end = dates2.indexOf(end_date.value);
+                                                                            console.log(index_start);
+                                                                            console.log(index_end);
+
+                                                                            const filterDate = dates2.slice(index_start,index_end +1);
+                                                                            myChart1.data.labels = filterDate;
+                                                                            myChart1.update();
+                                                                      }
+
+    </script>
+    </body>
+</html>

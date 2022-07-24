@@ -1,0 +1,29 @@
+    def save(self,*args,**kwargs):
+        if self.temp > 40:
+            # Find your Account SID and Auth Token at twilio.com/console
+            # and set the environment variables. See http://twil.io/secure
+            account_sid = 'ACe1bca5e36b6e88553e3e737883be8264'
+            auth_token = '6f22495b27bfe97d4cf5d722c6c6285a'
+            client = Client(account_sid, auth_token)
+
+            message = client.messages.create(
+                body=f'température élevée {self.temp}',
+                from_='+17047039099',
+                to='+212707978923'
+            )
+
+            print(message.sid)
+            return super().save(*args,**kwargs)
+
+
+
+{% for message in messages%}
+<p id="messages">{{message}}</p>
+{% endfor%}*
+
+UTC-2 = 'Etc/GMT+2'
+UTC-1 = 'Etc/GMT+1'
+UTC = 'Etc/GMT+0'
+UTC+1 = 'Etc/GMT-1'
+UTC+2 = 'Etc/GMT-2'
+
